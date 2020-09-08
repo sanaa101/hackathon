@@ -6,7 +6,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
-#If modifying these scopes, delete the file token.pickle
+#If modifying these scopes, delete the file token.picle
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 def main():
@@ -14,7 +14,7 @@ def main():
     #"Prints the start and name of the next 10 events on the user."
     
     creds = None
-    #The file token.pickle stores the user's access and refresh tokens, and is
+    #The file token.picle stores the user's access and refresh tokens, and is
     #created automatically when the authorization flow completes for the first
     #timeA
     if os.path.exists('token.pickle'):
@@ -35,14 +35,16 @@ def main():
     #Call the Calandar API
     now=datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' idicates UTC time
     print('Getting the upcoming 10 events')
-    event_result = service.events().list(calendarId='primary', timeMin=now, maxResults=10,singleEvents=True,orderBy='startTime').execute()
-    events = events_result.get('item', [])
+    events_result = service.events().list(calendarId='primary',timeMin = now, maxResults=10,singleEvents=True,orderBy='startTime').execute()
+    events = events_result.get('items', [])
 
     if not events:
         print('No upcoming events found.')
     for event in events:
-        start = events['start'].get('dateTime', event['start'].get('date'))
-        print(start, event['summary'])
+       # start = events['start'].get('dateTime', event['start'].get('date'))
+       # print(start, event['summary'])
+        print(event['summary'])
+    #print (events_result)
 
 if __name__ == '__main__':
     main()
